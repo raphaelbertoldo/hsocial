@@ -6,6 +6,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/user.dto';
@@ -21,9 +22,9 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+  @Get('profile')
+  getProfile(@Req() req) {
+    return this.usersService.getProfile(req);
   }
 
   @Patch(':id')
