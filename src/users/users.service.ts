@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { UpdateUserDto } from './dto/user.dto';
 import { supabase } from '../database/supabase.configure';
 import { JwtService } from '@nestjs/jwt';
@@ -7,40 +7,20 @@ import { JwtService } from '@nestjs/jwt';
 export class UsersService {
   constructor(private readonly jwtService: JwtService) {}
 
-  async getProfile(req) {
+  async getCurrentUser(req) {
     try {
-      const token = req.headers.authorization;
-      if (!token) {
-        throw new Error('Token not provided');
-      }
-
-      const tokenString = token.replace('Bearer ', '');
-
-      const decodedToken = this.jwtService.decode(tokenString);
-      if (!decodedToken || !decodedToken['email']) {
-        throw new Error('Invalid token or missing email');
-      }
-
-      const userId = decodedToken['sub'];
-
-      const { data, error } = await supabase
-        .from('users')
-        .select('*')
-        .eq('id', userId)
-        .limit(1);
-      if (error) {
-        throw new Error(`Failed to query user: ${error.message}`);
-      }
-
-      if (!data || data.length === 0) {
-        throw new Error(`User not found with email`);
-      }
-
-      const userProfile = data[0];
-
-      return userProfile;
+      const user = this.findUserById(req.user.sub);
+      return user;
     } catch (error) {
-      throw new Error(`Failed to get user profile: ${error.message}`);
+      throw new Error(`Failed to get current user: ${error.message}`);
+    }
+  }
+  async getUserById(id: string) {
+    try {
+      const user = this.findUserById(id);
+      return user;
+    } catch (error) {
+      throw new Error(`Failed to get user by id: ${error.message}`);
     }
   }
   async findAll() {
@@ -58,5 +38,26 @@ export class UsersService {
 
   remove(id: number) {
     return `This action removes a #${id} user`;
+  }
+  async findUserById(userId: string) {
+    if (!userId) {
+      throw new Error('Id not provided');
+    }
+
+    const { data, error } = await supabase
+      .from('users')
+      .select('*')
+      .eq('id', userId)
+      .limit(1);
+    if (error) {
+      throw new Error(`Failed in function findUserById: ${error.message}`);
+    }
+
+    if (!data || data.length === 0) {
+      throw new Error(`User not found`);
+    }
+
+    const userProfile = data[0];
+    return userProfile;
   }
 }

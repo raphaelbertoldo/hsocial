@@ -10,21 +10,26 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/user.dto';
-import { AuthGuard } from '../auth/auth.guard';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('user')
+@UseGuards(AuthGuard)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @UseGuards(AuthGuard)
   @Get()
   findAll() {
     return this.usersService.findAll();
   }
 
-  @Get('profile')
-  getProfile(@Req() req) {
-    return this.usersService.getProfile(req);
+  @Get('profile/:id')
+  getProfile(@Param() params: { id: string }) {
+    return this.usersService.getUserById(params.id);
+  }
+
+  @Get('me')
+  getCurrentUser(@Req() req: Request) {
+    return this.usersService.getCurrentUser(req);
   }
 
   @Patch(':id')
