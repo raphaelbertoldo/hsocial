@@ -31,7 +31,7 @@
     "dotenv": "^16.4.5",
     "nestjs-supabase-auth": "^1.0.9",
     "passport-jwt": "^4.0.1",
-    "reflect-metadata": "^0.1.13",
+    "reflect-metadata": "^0.2.2",
     "rxjs": "^7.2.0",
     "uuidv4": "^6.2.13"
   },
