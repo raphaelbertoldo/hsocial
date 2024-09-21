@@ -26,7 +26,7 @@
     "@nestjs/mapped-types": "*",
     "@nestjs/passport": "^10.0.3",
     "@nestjs/platform-express": "^10.4.2",
-    "@supabase/supabase-js": "^2.44.1",
+    "@supabase/supabase-js": "^2.45.3",
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.4.5",
     "nestjs-supabase-auth": "^1.0.9",
