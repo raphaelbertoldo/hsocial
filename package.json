@@ -23,7 +23,7 @@
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
     "@nestjs/jwt": "^10.2.0",
-    "@nestjs/mapped-types": "*",
+    "@nestjs/mapped-types": "2.0.6",
     "@nestjs/passport": "^10.0.3",
     "@nestjs/platform-express": "^10.4.2",
     "@supabase/supabase-js": "^2.45.3",
